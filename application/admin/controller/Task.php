@@ -97,12 +97,12 @@ class Task extends Controller
 
             if($value['task_state'] == 1){
                 $str .= "<small class='label label-success'>已完成</small>";
-            }else if($value['stop_time'] - time() < 0){
+            }else if($value['stop_time'] + 86400 < time() ){
                 $str .= "<small class='label label-danger'>未完成</small>";
-            }else if($value['start_time'] - time() > 0){
-                $str .= "<small class='label label-default'>未开始</small>";
-            }else{
+            }else if($value['start_time'] - time() ){
                 $str .= "<small class='label label-warning'>进行中</small>";
+            }else{
+                $str .= "<small class='label label-default'>未开始</small>";
             }
             $str .= "
                     </td>
@@ -267,12 +267,12 @@ class Task extends Controller
 
             if($value['task_state'] == 1){
                 $str .= "<small class='label label-success'>已完成</small>";
-            }else if($value['stop_time'] - time() < 0){
+            }else if($value['stop_time'] + 86400 < time() ){
                 $str .= "<small class='label label-danger'>未完成</small>";
-            }else if($value['start_time'] - time() > 0){
-                $str .= "<small class='label label-default'>未开始</small>";
-            }else{
+            }else if($value['start_time'] - time() ){
                 $str .= "<small class='label label-warning'>进行中</small>";
+            }else{
+                $str .= "<small class='label label-default'>未开始</small>";
             }
             $str .= "
                     </td>
@@ -456,12 +456,12 @@ class Task extends Controller
 
             if($value['task_state'] == 1){
                 $str .= "<small class='label label-success'>已完成</small>";
-            }else if($value['stop_time'] - time() < 0){
+            }else if($value['stop_time'] + 86400 < time() ){
                 $str .= "<small class='label label-danger'>未完成</small>";
-            }else if($value['start_time'] - time() > 0){
-                $str .= "<small class='label label-default'>未开始</small>";
-            }else{
+            }else if($value['start_time'] - time() ){
                 $str .= "<small class='label label-warning'>进行中</small>";
+            }else{
+                $str .= "<small class='label label-default'>未开始</small>";
             }
             $str .= "
                     </td>
