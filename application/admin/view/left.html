@@ -1,0 +1,76 @@
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="/public/static/dist/img/user9-160x160.jpg" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>{$Request.session.username}</p>
+          <a href="#"><i class="fa fa-circle text-success"></i> 欢迎</a>
+        </div>
+      </div>
+      <!-- search form -->
+      <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="不要Search...">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+        </div>
+      </form>
+      <!-- /.search form -->
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu">
+        <li class="header">MAIN NAVIGATION</li>
+        <li><a href={:url('index/index')}><i class="ion ion-clipboard"></i> <span>我的任务</span></a></li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-edit"></i> <span>大目标</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href={:url('project/add')}><i class="fa fa-circle-o"></i> 添加大目标</a></li>
+            <li><a href={:url('project/index')}><i class="fa fa-circle-o"></i> 所有大目标</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-edit"></i> <span>中目标</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href={:url('task/add')}><i class="fa fa-circle-o"></i> 添加中目标</a></li>
+            <li><a href={:url('task/mytask')}><i class="fa fa-circle-o"></i> 我的中目标</a></li>
+            <li><a href={:url('task/index')}><i class="fa fa-circle-o"></i> 所有中目标</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-edit"></i> <span>小目标</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href={:url('item/add')}><i class="fa fa-circle-o"></i> 添加小目标</a></li>
+            <li><a href={:url('index/index2')}><i class="fa fa-circle-o"></i> 我的小目标</a></li>
+            <li><a href={:url('item/index')}><i class="fa fa-circle-o"></i> 所有小目标</a></li>
+          </ul>
+        </li>
+
+
+        <li><a href={:url('task/accep')}><i class="fa fa-book"></i> <span>任务验收</span></a></li>
+        <li><a href={:url('task_user/index')}><i class="fa fa-book"></i> <span>任务-负责人</span></a></li>
+        <li><a href={:url('files/upload')}><i class="fa fa-folder"></i> <span>项目附件</span></a></li>
+
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>

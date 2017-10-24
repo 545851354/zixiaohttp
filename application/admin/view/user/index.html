@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看用户列表</title>
+    <style>
+        body{
+            color: #333;
+            font: 16px Verdana, "Helvetica Neue", helvetica, Arial, 'Microsoft YaHei', sans-serif;
+            margin: 0px;
+            padding: 20px;
+        }
+
+        a{
+            color: #868686;
+            cursor: pointer;
+        }
+        a:hover{
+            text-decoration: underline;
+        }
+        h2{
+            color: #4288ce;
+            font-weight: 400;
+            padding: 6px 0;
+            margin: 6px 0 0;
+            font-size: 28px;
+            border-bottom: 1px solid #eee;
+        }
+        div{
+            margin:8px;
+        }
+        .info{
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .copyright{
+            margin-top: 24px;
+            padding: 12px 0;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+<a href="{:url('admin/user/logout')}">退出</a>
+<h2>用户列表</h2>
+<table border="1" rules="all" width="600"cellpadding="5">
+    <tr>
+        <th>id</th>
+        <th>用户名</th>
+        <th>密码</th>
+        <th>创建时间</th>
+    </tr>
+    {volist name="list" id="value"}
+    {if $value.username == "admin"}
+    {else/}
+    <tr>
+        <td>{$value.id}</td>
+        <td>{$value.username}</td>
+        <td>{$value.password}</td>
+        <td>{$value.create_time|date="Y-m-d H:i:s",###}</td>
+    </tr>
+    {/if}
+    {/volist}
+
+</table>
+<a href="{:url('admin/user/add')}">添加用户</a>
+
+</body>
+</html>

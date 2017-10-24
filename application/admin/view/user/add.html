@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看用户列表</title>
+    <style>
+        body{
+            color: #333;
+            font: 16px Verdana, "Helvetica Neue", helvetica, Arial, 'Microsoft YaHei', sans-serif;
+            margin: 0px;
+            padding: 20px;
+        }
+
+        a{
+            color: #868686;
+            cursor: pointer;
+        }
+        a:hover{
+            text-decoration: underline;
+        }
+        h2{
+            color: #4288ce;
+            font-weight: 400;
+            padding: 6px 0;
+            margin: 6px 0 0;
+            font-size: 28px;
+            border-bottom: 1px solid #eee;
+        }
+        div{
+            margin:8px;
+        }
+        .info{
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .copyright{
+            margin-top: 24px;
+            padding: 12px 0;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+<a href="{:url('admin/user/logout')}">退出</a>
+<h2>用户注册</h2>
+<div class="info">
+    <form action="{:url('admin/user/add')}" method="post">
+        用户名：<input type="text" name="username" ><br>
+        密&ensp;&ensp;码：<input type="password" name="password" ><br>
+        <input type="submit">
+    </form>
+</div>
+<div class="info">
+    <a href="{:url('admin/user/index')}">查看所有用户</a>
+</div>
+
+</body>
+</html>
