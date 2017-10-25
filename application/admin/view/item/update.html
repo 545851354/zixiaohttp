@@ -121,17 +121,6 @@
                                     <span class="form-control label-danger">未完成</span>
                                 </div>
                                 <div class="form-group">
-                                    <label>未完成原因</label>
-                                    <input class="form-control" name="cause" value="{$value.cause}">
-                                </div>
-                                <div class="form-group">
-                                    <label>后续操作</label>
-                                    <select class="form-control select2" name="operate" style="width: 100%;">
-                                        <option value="1" {if $value.operate == 1}selected{/if}>延期</option>
-                                        <option value="2" {if $value.operate == 2}selected{/if}>变更</option>
-                                        <option value="3" {if $value.operate == 3}selected{/if}>完成</option>
-                                    </select>
-
                                     {elseif $value.finish_time - $Request.time < 0 }
                                     <span class="form-control label-warning"> 今天最后一天</span>
                                     {elseif $value.finish_time - $Request.time < 86400 }
@@ -139,7 +128,19 @@
                                     {else/}
                                     <span class="form-control label-primary">还有 {$value.finish_time/86400-$Request.time/86400|substr=0,1} 天</span>
                                     {/if}
-
+                                </div>
+                                <div class="form-group">
+                                    <label>未完成原因</label>
+                                    <input class="form-control" name="cause" value="{$value.cause}">
+                                </div>
+                                <div class="form-group">
+                                    <label>后续操作</label>
+                                    <select class="form-control select2" name="operate" style="width: 100%;">
+                                        <option value="0" {if $value.operate == 1}selected{/if}>===请选择===</option>
+                                        <option value="1" {if $value.operate == 1}selected{/if}>延期</option>
+                                        <option value="2" {if $value.operate == 2}selected{/if}>变更</option>
+                                        <option value="3" {if $value.operate == 3}selected{/if}>完成</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -149,7 +150,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="date" name="create_time" class="form-control" value="{$value.create_time|date='Y-m-d',###}">
+                                        <span class="form-control" disabled>{$value.create_time|date='Y-m-d',###}</span>
                                     </div>
                                 </div>
                                 <!-- /.form-group -->
@@ -159,7 +160,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="date" name="finish_time" class="form-control" value="{$value.finish_time|date='Y-m-d',###}">
+                                        <span class="form-control" disabled>{$value.finish_time|date='Y-m-d',###}</span>
                                     </div>
                                 </div>
 

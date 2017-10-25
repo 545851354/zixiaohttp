@@ -148,8 +148,8 @@ class Item extends Controller
         {
             //更新数据
             $data = input('post.');
-            $data['create_time'] = strtotime($data['create_time']);
-            $data['finish_time'] = strtotime($data['finish_time']);
+//            $data['create_time'] = strtotime($data['create_time']);
+//            $data['finish_time'] = strtotime($data['finish_time']);
             $result = Db::table('zixiao_item')
                 ->where('id='.$id)
                 ->update($data);

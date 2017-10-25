@@ -40,6 +40,7 @@ class Task extends Controller
 
         $result3 = Db::name('Item')
             ->field('task_id,item_name')
+            ->where('state',0)
             ->select();
 
         $user = Db::name('User')
@@ -99,7 +100,7 @@ class Task extends Controller
                 $str .= "<small class='label label-success'>已完成</small>";
             }else if($value['stop_time'] + 86400 < time() ){
                 $str .= "<small class='label label-danger'>未完成</small>";
-            }else if($value['start_time'] - time() ){
+            }else if($value['start_time'] < time() ){
                 $str .= "<small class='label label-warning'>进行中</small>";
             }else{
                 $str .= "<small class='label label-default'>未开始</small>";
@@ -108,14 +109,18 @@ class Task extends Controller
                     </td>
                     <td>
                         <select class='form-control select2' name='project_id' style='width: 100%;'>";
-            //所有小目标
-            foreach ($result3 as $v)
+            //筛选未完成中目标的小目标
+            if($value['task_state'] == 0 && $value['stop_time'] + 86400 < time())
             {
-                if($value['id'] == $v['task_id'])
+                foreach ($result3 as $v)
                 {
-                    $str .= "<option>{$v['item_name']}</option>";
+                    if($value['id'] == $v['task_id'])
+                    {
+                        $str .= "<option>{$v['item_name']}</option>";
+                    }
                 }
             }
+
             $str .= "
                         </select>
                     </td>
@@ -269,7 +274,7 @@ class Task extends Controller
                 $str .= "<small class='label label-success'>已完成</small>";
             }else if($value['stop_time'] + 86400 < time() ){
                 $str .= "<small class='label label-danger'>未完成</small>";
-            }else if($value['start_time'] - time() ){
+            }else if($value['start_time'] < time() ){
                 $str .= "<small class='label label-warning'>进行中</small>";
             }else{
                 $str .= "<small class='label label-default'>未开始</small>";
@@ -278,12 +283,15 @@ class Task extends Controller
                     </td>
                     <td>
                         <select class='form-control select2' name='project_id' style='width: 100%;'>";
-            //所有小目标
-            foreach ($result3 as $v)
+            //筛选未完成中目标的小目标
+            if($value['task_state'] == 0 && $value['stop_time'] + 86400 < time())
             {
-                if($value['id'] == $v['task_id'])
+                foreach ($result3 as $v)
                 {
-                    $str .= "<option>{$v['item_name']}</option>";
+                    if($value['id'] == $v['task_id'])
+                    {
+                        $str .= "<option>{$v['item_name']}</option>";
+                    }
                 }
             }
             $str .= "
@@ -339,8 +347,8 @@ class Task extends Controller
         {
             //更新数据
             $data = input('post.');
-            $data['start_time'] = strtotime($data['start_time']);
-            $data['stop_time'] = strtotime($data['stop_time']);;
+//            $data['start_time'] = strtotime($data['start_time']);
+//            $data['stop_time'] = strtotime($data['stop_time']);
             $result = Db::table('zixiao_task')
                 ->where('id='.$id)
                 ->update($data);
@@ -458,7 +466,7 @@ class Task extends Controller
                 $str .= "<small class='label label-success'>已完成</small>";
             }else if($value['stop_time'] + 86400 < time() ){
                 $str .= "<small class='label label-danger'>未完成</small>";
-            }else if($value['start_time'] - time() ){
+            }else if($value['start_time'] < time() ){
                 $str .= "<small class='label label-warning'>进行中</small>";
             }else{
                 $str .= "<small class='label label-default'>未开始</small>";
@@ -467,12 +475,15 @@ class Task extends Controller
                     </td>
                     <td>
                         <select class='form-control select2' name='project_id' style='width: 100%;'>";
-            //所有小目标
-            foreach ($result3 as $v)
+            //筛选未完成中目标的小目标
+            if($value['task_state'] == 0 && $value['stop_time'] + 86400 < time())
             {
-                if($value['id'] == $v['task_id'])
+                foreach ($result3 as $v)
                 {
-                    $str .= "<option>{$v['item_name']}</option>";
+                    if($value['id'] == $v['task_id'])
+                    {
+                        $str .= "<option>{$v['item_name']}</option>";
+                    }
                 }
             }
             $str .= "
