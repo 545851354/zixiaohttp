@@ -47,7 +47,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href={:url('task/add')}><i class="fa fa-circle-o"></i> 添加中目标</a></li>
-            <li><a href={:url('task/mytask')}><i class="fa fa-circle-o"></i> 我的中目标</a></li>
+            <li><a href={:url('task/index',['mytask'=>1])}><i class="fa fa-circle-o"></i> 我的中目标</a></li>
             <li><a href={:url('task/index')}><i class="fa fa-circle-o"></i> 所有中目标</a></li>
           </ul>
         </li>
@@ -66,7 +66,7 @@
         </li>
 
 
-        <li><a href={:url('task/accep')}><i class="fa fa-book"></i> <span>任务验收</span></a></li>
+        <li><a href={:url('task/index',['mytask'=>2])}><i class="fa fa-book"></i> <span>任务验收</span></a></li>
         <li><a href={:url('task_user/index')}><i class="fa fa-book"></i> <span>任务-负责人</span></a></li>
         <li><a href={:url('files/upload')}><i class="fa fa-folder"></i> <span>项目附件</span></a></li>
 

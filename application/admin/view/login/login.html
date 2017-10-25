@@ -60,7 +60,7 @@
 
 
 <div class="login-box">
-  <div class="login-logo" style="color: white">
+  <div class="login-logo" style="color: white;letter-spacing:5px;">
     <b>紫霄办公系统</b>
   </div><br>
 
@@ -106,6 +106,9 @@
 <script src="/public/static/bootstrap/js/bootstrap.min.js"></script>
 <!-- iCheck -->
 <script src="/public/static/plugins/iCheck/icheck.min.js"></script>
+
+<script type="text/javascript" src="/public/static/js/common.js"></script>
+<script type="text/javascript" src="/public/static/js/canvas-particle.js"></script>
 <script>
   $(function () {
     $('input').iCheck({
@@ -113,6 +116,9 @@
       radioClass: 'iradio_square-blue',
       increaseArea: '20%' // optional
     });
+      //背景特效
+      var config = {vx: 4, vy:  4, height: 2, width: 2, count: 100, color: "121, 162, 185", stroke: "100,200,180", dist: 6000, e_dist: 20000, max_conn: 10 }
+      CanvasParticle(config);
   });
 </script>
 </body>
