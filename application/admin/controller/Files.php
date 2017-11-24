@@ -8,6 +8,7 @@
 
 namespace app\admin\controller;
 use think\Controller;
+use think\Request;
 use think\Db;
 
 class Files extends Controller
@@ -26,8 +27,12 @@ class Files extends Controller
                     $this->error("所有项都为必填项！");
                 }
             }
+//            dump(request()->file('files'));die;
             //验证重名
-            $filename = request()->file('files')->getInfo('name');
+//            echo request()->file('files');die;
+            // 获取表单上传文件
+            $file = request()->file('files');
+            $filename = $file->getInfo('name');
             $res = Db::name('files')
                 ->where('file_name',$filename)
                 ->field('file_name')
@@ -37,8 +42,7 @@ class Files extends Controller
                 $this->error('文件名重名，请修改后重新上传');
             }
             $data['user_id'] = session('user_id');
-            // 获取表单上传文件
-            $file = request()->file('files');
+
             // 移动到服务器的上传目录 并且设置不覆盖
             $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads' . DS . 'admin', '');
             if ($info) {

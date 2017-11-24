@@ -35,6 +35,17 @@ class User extends Controller
             {
 
                 $data = input('post.');
+                foreach ($data as $value)
+                {
+                    if(empty($value)){
+                        $this->error('所有项都为必填项！');
+                    }
+                }
+                // 验证重名
+                $result = Db::name('User')->where('username',$data['username'])->find();
+                if($result) $this->error('用户名重名');
+                $result = Db::name('User')->where('nickname',$data['nickname'])->find();
+                if($result) $this->error('简称重名');
                 $data['create_time'] = time();
                 $db = db('User');
                 $db->insert($data);

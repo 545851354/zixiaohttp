@@ -18,10 +18,13 @@
           <!-- Messages: style can be found in dropdown.less-->
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <a href="{:url('admin/login/logout')}" class="dropdown-toggle">
+              <span class="hidden-xs">退出</span>
+            </a>
+            <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="/public/static/dist/img/user9-160x160.jpg" class="user-image" alt="User Image">
               <span class="hidden-xs">{$Request.session.username}</span>
-            </a>
+            </a>-->
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">

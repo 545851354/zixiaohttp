@@ -82,11 +82,11 @@
                                 <tr >
                                     <td>{$value.id}</td>
                                     <td>{$value.username}</td>
-                                    <td><a class="tdlink {$value.state? 'a-state' : ''}" href="{:url('item/detail',['id'=>$value.id])}">{$value.project_name}</a></td>
-                                    <td><a class="tdlink {$value.state? 'a-state' : ''}" href="{:url('item/detail',['id'=>$value.id])}">{$value.task_name}</a></td>
-                                    <td><a class="tdlink {$value.state? 'a-state' : ''}" href="{:url('item/detail',['id'=>$value.id])}">{$value.item_name}</a></td>
-                                    <td><a class="tdlink {$value.state? 'a-state' : ''}" href="{:url('item/detail',['id'=>$value.id])}">{$value.create_time|date="Y-m-d",###}</a></td>
-                                    <td><a class="tdlink {$value.state? 'a-state' : ''}" href="{:url('item/detail',['id'=>$value.id])}">{$value.finish_time|date="Y-m-d",###}</a></td>
+                                    <td><a class="tdlink {if $value.state == 1}a-state{/if}" href="{:url('item/detail',['id'=>$value.id])}">{$value.project_name}</a></td>
+                                    <td><a class="tdlink {if $value.state == 1}a-state{/if}" href="{:url('item/detail',['id'=>$value.id])}">{$value.task_name}</a></td>
+                                    <td><a class="tdlink {if $value.state == 1}a-state{/if}" href="{:url('item/detail',['id'=>$value.id])}">{$value.item_name}</a></td>
+                                    <td><a class="tdlink {if $value.state == 1}a-state{/if}" href="{:url('item/detail',['id'=>$value.id])}">{$value.create_time|date="Y-m-d",###}</a></td>
+                                    <td><a class="tdlink {if $value.state == 1}a-state{/if}" href="{:url('item/detail',['id'=>$value.id])}">{$value.finish_time|date="Y-m-d",###}</a></td>
                                     <td>
                                         {if $value.finish_time - $value.create_time < 0 }
                                         <small class="label label-danger">过期</small>

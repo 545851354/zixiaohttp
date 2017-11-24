@@ -199,8 +199,17 @@
                                     <label>具体任务</label>
                                     <span class="form-control" >{$value.item_name}</span>
                                 </div>
-                                <!-- /.form-group -->
                             </div>
+
+                            {foreach $addto as $v}
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>追加</label>
+                                    <span class="form-control" >{$v.addto_name}</span>
+                                </div>
+                            </div>
+                            {/foreach}
+
                         </div>
                     </div>
 

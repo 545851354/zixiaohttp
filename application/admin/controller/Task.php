@@ -49,7 +49,7 @@ class Task extends Controller
             ['zixiao_project p','t.project_id=p.id'],
             ['zixiao_user u','t.user_id=u.id']
         ];
-        $field = 'p.project_name,u.username,t.*';
+        $field = 'p.project_name,u.username,u.nickname,t.*';
         $result = Db::table('zixiao_task')
             ->alias('t')
             ->where($condition)
@@ -79,7 +79,7 @@ class Task extends Controller
             ->select();
 
         //用户id计数
-        $number = array();
+        /*$number = array();
         foreach ($user as $kn => $vn)
         {
             $uid = $vn['id'];
@@ -95,7 +95,7 @@ class Task extends Controller
             $number[$uid] = $ress;
 //            $usercount = Db::name('Task')->where('user_id',$id)->count();
 
-        }
+        }*/
         //组合HTML标签内容
         $str = "";
         foreach ($result as $key => $value)
@@ -110,18 +110,18 @@ class Task extends Controller
                 $str .= "style='color: #aaa'";
             }
             //遍历用户对应的任务序号
-            foreach ($number as $nk => $nv)
+            /*foreach ($number as $nk => $nv)
             {
                 if($value['user_id'] == $nk)
                 {
                     $usernum = array_search($value['id'],$nv)+1;
                 }
-            }
+            }*/
 
             $str .= ">
-                    <td>{$value['username']}-{$usernum}</td>
+                    <td>{$value['nickname']}</td>
                     <td><input type='checkbox' onclick='checkid({$value['id']})' name='checkbox' ";
-            $number[$value['user_id']]++;
+//            $number[$value['user_id']]++;
 
             if($value['task_state'] == 1)
             {
@@ -278,8 +278,8 @@ class Task extends Controller
         {
             //更新数据
             $data = input('post.');
-//            $data['start_time'] = strtotime($data['start_time']);
-//            $data['stop_time'] = strtotime($data['stop_time']);
+            $data['start_time'] = strtotime($data['start_time']);
+            $data['stop_time'] = strtotime($data['stop_time']);
             $result = Db::table('zixiao_task')
                 ->where('id='.$id)
                 ->update($data);
@@ -323,13 +323,13 @@ class Task extends Controller
                 'code' => 10000,
                 'msg'  => "ok"
             );
-            return $return;
+            echo json_encode($return);
         }else{
             $return = array(
                 'code' => 20000,
                 'msg'  => "请联系【验收人】操作此任务！"
             );
-            return $return;
+            echo json_encode($return);
         }
     }
 }

@@ -24,6 +24,8 @@
   <link rel="stylesheet" href="/public/static/plugins/morris/morris.css">
   <!-- jvectormap -->
   <link rel="stylesheet" href="/public/static/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+
+  <link rel="stylesheet" href="/public/static/css/jquery.sweet-dropdown.min.css">
   <!-- Date Picker -->
   <link rel="stylesheet" href="/public/static/plugins/datepicker/datepicker3.css">
   <!-- Daterange picker -->
@@ -32,8 +34,8 @@
   <link rel="stylesheet" href="/public/static/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <style>
     .label-purple{background-color:#9966CC}.label-purple[href]:focus,.label-purple[href]:hover{background-color:#9966CC}
-    .a-state:link{ color: #aaa;}
-    .a-state:visited{ color: #aaa;}
+    .a-state{ color: #aaa;}
+    .projectbg{background: #80B5D3;}
   </style>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -46,6 +48,7 @@
   <script src="/public/static/plugins/jQuery/jquery-2.2.3.min.js"></script>
   <!-- jQuery UI 1.11.4 -->
   <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script>var task = [];</script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -55,160 +58,431 @@
   <!-- Left side column. contains the logo and sidebar -->
   {include file="left" /}
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="min-height: 0;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        控制台
-        <small></small>
+        {$pro.project_name}
+        <!--<small>当前大目标</small>-->
       </h1>
     </section>
     <!-- Main content -->
     <section class="content">
-      <div class="row">
-        <div class="col-md-3 col-sm-6">
-          <a href="{:url('task/index')}">
-            <div class="info-box">
-              <span class="info-box-icon bg-aqua"><i class="ion ion-stats-bars"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-text">中目标任务</span>
-                <span class="info-box-number">{$taskcount}</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-          </a>
-          <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-md-3 col-sm-6">
-          <a href="{:url('item/index')}">
-            <div class="info-box">
-              <span class="info-box-icon bg-red"><i class="fa fa-cubes"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-text">小目标任务</span>
-                <span class="info-box-number">{$itemcount}</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-          </a>
-          <!-- /.info-box -->
-        </div>
-
-        <div class="col-md-3 col-sm-6">
-          <a href="{:url('task/add')}">
-            <div class="info-box">
-              <span class="info-box-icon bg-green"><i class="fa fa-edit"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-text">新增中目标</span>
-                <span class="info-box-number">+</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-          </a>
-          <!-- /.info-box -->
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <a href="{:url('files/upload')}">
-            <div class="info-box">
-              <span class="info-box-icon bg-yellow"><i class="fa fa-files-o"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-text">项目附件</span>
-                <span class="info-box-number">{$filescount}</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-          </a>
-          <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
-      </div>
       <!-- /.row -->
-      <!-- Main row -->
       <div class="row">
-        <!-- Left col -->
-        <section class="col-lg-12 connectedSortable">
+        <div class="col-md-12">
+          <!-- Application buttons -->
+          <div class="box">
+            <div class="box-header">
+              <!--<h3 class="box-title">其他大目标</h3>-->
+            </div>
+            <div class="box-body">
+              {volist name="project" id="project"}
+              {if $pro.id == $project.id}
+              <a class="btn btn-app bg-light-blue-active color-palette" style="width: 150px;height: 100px" href="javascript:void(0)">
+                <h3>{$project.project_name}</h3>
+              </a>
+              {else/}
+              <a class="btn btn-app " href="{:url('admin/index/index',['proid'=>$project.id])}">
+                <h6>{$project.project_name}</h6>
+              </a>
+              {/if}
+              {/volist}
+              <a class="btn btn-app" href="{:url('admin/project/add')}">
+                <i class="fa fa-plus"></i>
+              </a>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
 
-          <div class="nav-tabs-custom">
-            <!-- Tabs within a box -->
-            <ul class="nav nav-tabs pull-right">
+      </div>
 
-              <li class="active"><a href="#list-view">List</a></li>
-              <li><a href="{:url('index/index2')}#table-view">Table</a></li>
-              <li><div class="box-tools pull-right">
-                <a href="{:url('item/add')}" class="btn btn-default pull-right"><i class="fa fa-plus"></i> 添加小目标</a>
-              </div></li>
-              <li class="pull-left header"><i class="ion ion-clipboard"></i> 我的任务 <small> ( {$count} )</small></li>
-
-            </ul>
-            <div class="tab-content no-padding">
-              <!-- Morris chart - Sales -->
-              <div class="chart tab-pane active" id="list-view">
-                <div class="box-body">
-                  <ul class="todo-list ">
-                    {volist name="list" id="value"}
-                    <li>
-                        <!-- checkbox -->
-                        <input type="checkbox" style="width: 16px;height: 16px;vertical-align: middle;" value="{$value.id}" onclick="checkid({$value.id})" name="checkbox" {if $value.state == 1}checked{/if}>
-                        <!-- to do-->
-                      <a class="{$value.state? 'a-state' : ''}"  href="{:url('admin/item/detail',['id'=>$value.id])}">
-                        <span class="text">{$value.project_name} - {$value.task_name}： {$value.item_name}</span>
-                      </a>
-                      <!-- Emphasis label -->
-                      {if $value.state == 1 }
-                      <small class="label label-success">已完成</small>
-                      {elseif $value.finish_time - $Request.time < -86400 }
-                      <small class="label label-danger">未完成</small>
-                      {elseif $value.finish_time - $Request.time < 0 }
-                      <small class="label label-warning"><i class="fa fa-clock-o"></i> 今天</small>
-                      {elseif $value.finish_time - $Request.time < 86400 }
-                      <small class="label label-info"><i class="fa fa-clock-o"></i> 1 天</small>
-                      {else/}
-                      <small class="label label-primary"><i class="fa fa-clock-o"></i> {$value.finish_time/86400-$Request.time/86400|substr=0,1} 天</small>
-                      {/if}
-                      <!--未完成原因-->
-                      {if $value.cause != ""}
-                      <small class="label label-info">{$value.cause}</small>
-                      {/if}
-                      <!--操作调整-->
-                      {if $value.operate == 1 }
-                      <small class="label label-purple">延期</small>
-                      {elseif $value.operate == 2 }
-                      <small class="label label-purple">变更</small>
-                      {elseif $value.operate == 3 }
-                      <small class="label label-purple">完成</small>
-                      {/if}
-
-                      <!-- General tools such as edit or delete-->
-                      <div class="tools">
-                        <span style="color: #bbb;">{$value.create_time|date="Y-m-d",###} / {$value.finish_time|date="Y-m-d",###} </span>
-                        <a href="{:url('item/update',['id'=>$value.id])}">
-                          <i class="fa fa-edit"></i>
-                        </a>
+      <!--临时任务-->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <div class="box-header with-border" style="background: #3c8dbc; color: #fff;">
+              <div class="col-md-4">
+                <h3 class="box-title ">临时任务</h3>
+              </div>
+            </div>
+            <!--新增小目标-->
+            <form action="{:url('admin/item/add')}" method="post">
+              <input type="hidden" name="user_id" value="{$Request.session.user_id}">
+              <div class="box-body no-padding">
+                <table width="100%">
+                  <tr>
+                    <td>
+                      <div class="box-body">
+                        <div class="form-group">
+                          <input type="text" class="form-control" name="item_name" placeholder="Enter ...">
+                        </div>
                       </div>
-                    </li>
-                    {/volist}
+                    </td>
+                    <td width="160">
+                      <div class="box-body">
+                        <div class="form-group">
+                          <input type="date" class="form-control" name="create_time" value="{$Request.time|date='Y-m-d',###}">
+                        </div>
+                      </div>
+                    </td>
+                    <td width="160">
+                      <div class="box-body">
+                        <div class="form-group">
+                          <input type="date" class="form-control" name="finish_time" value="{$Request.time+86400|date='Y-m-d',###}">
+                        </div>
+                      </div>
+                    </td>
+                    <td width="60">
+                      <div class="box-body">
+                        <div class="form-group">
+                          <div class="input-group-btn">
+                            <button type="button" onclick="item_add('0')" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </form>
+            <div class="box-body no-padding pre-scrollable">
+              <table class="table table-hover table-striped">
+                <tbody>
 
-                  </ul>
+                {foreach $notask as $vn}
+                <tr id="{$vn.id}">
+
+                  <td style="display: none;">{$Request.session.user_id}</td>
+                  <td class="mailbox-name" align="center">&nbsp;</td>
+                  <td class="mailbox-subject">
+                    <a href="javascript:void(0)" class="disableCss"  onclick="addrow({$vn.id})">
+                      <i class="fa fa-circle"></i>
+                    </a>
+                    <span class="{$vn.state==1||$vn.state==2? 'a-state' : ''}"><b>{$vn.item_name}</b></span>
+                  </td>
+                  <td align="right">
+                    <div class="tools">
+                      <span style="color: #bbb;">{$vn.create_time|date="m-d",###}&nbsp;<i class="fa fa-angle-double-right"></i>&nbsp;{$vn.finish_time|date="m-d",###}</span>
+
+                    </div>
+                  </td>
+                  <td align="center">
+                    <div class="btn-group">
+                      {if $vn.state == 1 }
+                      <button type="button" class="label label-success btn btn-flat" data-dropdown="#dropdown-left-center-{$vn.id}">已完成</button>
+                      {elseif $vn.state == 2 }
+                      <button type="button" class="label label-default btn btn-flat" data-dropdown="#dropdown-left-center-{$vn.id}">已取消</button>
+                      {elseif $vn.state == 3 }
+                      <button type="button" class="label btn bg-purple btn-flat" data-dropdown="#dropdown-left-center-{$vn.id}">延期+{$vn.defer}</button>
+                      {elseif $vn.finish_time+86400 < $Request.time }
+                      <button type="button" class="label label-danger btn btn-flat" data-dropdown="#dropdown-left-center-{$vn.id}">未完成</button>
+                      {elseif $vn.create_time < $Request.time }
+                      <button type="button" class="label btn bg-primary btn-flat" data-dropdown="#dropdown-left-center-{$vn.id}">进行中</button>
+                      {elseif $vn.create_time > $Request.time }
+                      <button type="button" class="label label-default btn btn-flat" data-dropdown="#dropdown-left-center-{$vn.id}">未开始</button>
+                      {/if}
+
+                      <div class="dropdown-menu dropdown-anchor-right-center dropdown-has-anchor" id="dropdown-left-center-{$vn.id}">
+                        <div class="input-group" style="width: 500px;margin: 5px 10px">
+
+                          <input type="button" class="btn btn-flat btn-primary col-xs-2" onclick='checkid("{$vn.id}","1")' value="完成">
+                          <input type="button" class="btn btn-flat btn-primary col-xs-2" onclick='checkid("{$vn.id}","0")' value="未完成">
+                          <input type="button" class="btn btn-flat btn-primary col-xs-2" onclick='checkid("{$vn.id}","2")' value="取消">
+                          <div class="input-group col-xs-6">
+
+                            <!--延期-->
+                            <form action="{:url('admin/item/update',['id'=>$vn.id,'proid'=>$Request.param.proid])}" method="post">
+                              <div class="input-group">
+                                <input type="hidden" name="state" value="3">
+                                <span class="input-group-btn">
+                                <i class="btn btn-flat btn-default" onclick='jian("{$vn.id}")' >-</i>
+                              </span>
+                                <input type="text" class="form-control defer{$vn.id}" name="defer" value="{$vn.defer}">
+                                <span class="input-group-btn">
+                                <i class="btn btn-flat btn-default" onclick='jia("{$vn.id}")' >+</i>
+                              </span>
+                                <span class="input-group-btn">
+                                <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-clock-o"></i></button>
+                              </span>
+                              </div>
+                            </form>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </td>
+                </tr>
+                <!--追加小目标-->
+                {foreach $addto as $va}
+                {if $va.item_id == $vn.id}
+                <tr>
+                  <td style="display: none;">{$vn.user_id}</td><td></td><td>
+                  <i class="{$vn.state==1||$vn.state==2? 'a-state' : ''}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$va.addto_name}</i></td><td align="right">
+                </td><td align="center">
+                  <a href="javascript:void(0)" onclick="delat({$va.id})">
+                    <i class="fa fa-trash-o"></i>
+                  </a>
+                </td></tr>
+                {/if}
+                {/foreach}
+                <!--end-->
+                {/foreach}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!--end-->
+      {foreach $task as $vt}
+      <script>task.push("{$vt.id}")</script>
+      <div class="row">
+        <div class="col-md-9">
+          <div class="box box-primary">
+          <div class="box-header with-border" style="background: #3c8dbc; color: #fff;">
+            <div class="col-md-4">
+              <h3 class="box-title ">{$vt.task_name}</h3>
+            </div>
+            <!--成员选择-->
+            <div class="col-md-4">
+              <span id="members{$vt.id}" style="">
+                <input type="checkbox" onclick="membercheck({$vt.id},0)" value="1"> 全选
+                {foreach $user as $vu}
+                {if $Request.session.user_id == $vu.id }
+                <input type="checkbox" class="hidden member{$vu.id}" onclick="membercheck({$vt.id},{$vu.id})" value="{$vu.id}" checked><span class="hidden member{$vu.id}">{$vu.username}</span>
+                {else /}
+                <input type="checkbox" class="hidden member{$vu.id}" onclick="membercheck({$vt.id},{$vu.id})" value="{$vu.id}"><span class="hidden member{$vu.id}">{$vu.username}</span>
+                {/if}
+                {/foreach}
+              </span>
+            </div>
+            <!--目标时间-->
+            <div class="col-md-4">
+              <div class="box-tools pull-right">
+                <div class="mailbox-messages ">
+                  <small>{$vt.start_time|date="m-d",###}&nbsp;<i class="fa fa-angle-double-right"></i>&nbsp;{$vt.stop_time|date="m-d",###}</small>
                 </div>
               </div>
             </div>
           </div>
+            <!--新增小目标-->
+          <form action="{:url('admin/item/add')}" method="post" id="task_item_add{$vt.id}">
+          <input type="hidden" name="user_id" value="{$Request.session.user_id}">
+          <input type="hidden" name="task_id" value="{$vt.id}">
+          <div class="box-body no-padding">
+            <table width="100%">
+              <tr>
+                <td>
+                  <div class="box-body">
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="item_name" placeholder="Enter ...">
+                    </div>
+                  </div>
+                </td>
+                <td width="160">
+                  <div class="box-body">
+                    <div class="form-group">
+                      <input type="date" class="form-control" name="create_time" value="{$Request.time|date='Y-m-d',###}">
+                    </div>
+                  </div>
+                </td>
+                <td width="160">
+                  <div class="box-body">
+                    <div class="form-group">
+                      <input type="date" class="form-control" name="finish_time" value="{$Request.time+86400|date='Y-m-d',###}">
+                    </div>
+                  </div>
+                </td>
+                <td width="60">
+                  <div class="box-body">
+                    <div class="form-group">
+                      <div class="input-group-btn">
+                        <button type="button" onclick="item_add({$vt.id})" class="btn btn-primary btn-flat"><i class="fa fa-plus"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          </form>
+          <div class="box-body no-padding pre-scrollable">
+            <table class="table table-hover table-striped" id="tables{$vt.id}">
+                <tbody>
 
-        </section>
+                {foreach $list as $v}
+                {if $vt.id == $v.task_id}
+                <tr id="{$v.id}">
+
+                  <td style="display: none;">{$v.user_id}</td>
+                  <td class="mailbox-name" align="center">{$v.username}</td>
+                  <td class="mailbox-subject">
+                    <a href="javascript:void(0)" class="disableCss"  onclick="addrow({$v.id})">
+                      <i class="fa fa-circle"></i>
+                    </a>
+                    <a href="{:url('admin/item/detail',['id'=>$v.id])}" class="{$v.state==1||$v.state==2? 'a-state' : ''}"><b>{$v.item_name}</b></a>
+                  </td>
+                  <td align="right">
+                    <div class="tools">
+                      <span style="color: #bbb;">{$v.create_time|date="m-d",###}&nbsp;<i class="fa fa-angle-double-right"></i>&nbsp;{$v.finish_time|date="m-d",###}</span>
+
+                    </div>
+                  </td>
+                  <td align="center">
+                    <div class="btn-group">
+                      {if $v.state == 1 }
+                      <button type="button" class="label label-success btn btn-flat" data-dropdown="#dropdown-left-center-{$v.id}">已完成</button>
+                      {elseif $v.state == 2 }
+                      <button type="button" class="label label-default btn btn-flat" data-dropdown="#dropdown-left-center-{$v.id}">已取消</button>
+                      {elseif $v.state == 3 }
+                      <button type="button" class="label btn bg-purple btn-flat" data-dropdown="#dropdown-left-center-{$v.id}">延期+{$v.defer}</button>
+                      {elseif $v.finish_time+86400 < $Request.time }
+                      <button type="button" class="label label-danger btn btn-flat" data-dropdown="#dropdown-left-center-{$v.id}">未完成</button>
+                      {elseif $v.create_time < $Request.time }
+                      <button type="button" class="label btn bg-primary btn-flat" data-dropdown="#dropdown-left-center-{$v.id}">进行中</button>
+                      {elseif $v.create_time > $Request.time }
+                      <button type="button" class="label label-default btn btn-flat" data-dropdown="#dropdown-left-center-{$v.id}">未开始</button>
+                      {/if}
+                      <div class="dropdown-menu dropdown-anchor-right-center dropdown-has-anchor" id="dropdown-left-center-{$v.id}">
+                        <div class="input-group" style="width: 500px;margin: 5px 10px">
+
+                          <input type="button" class="btn btn-flat btn-primary col-xs-2" onclick='checkid("{$v.id}","1")' value="完成">
+                          <input type="button" class="btn btn-flat btn-primary col-xs-2" onclick='checkid("{$v.id}","0")' value="未完成">
+                          <input type="button" class="btn btn-flat btn-primary col-xs-2" onclick='checkid("{$v.id}","2")' value="取消">
+                          <div class="input-group col-xs-6">
+
+                          <!--延期-->
+                            <form action="{:url('admin/item/update',['id'=>$v.id,'proid'=>$Request.param.proid])}" method="post">
+                            <div class="input-group">
+                              <input type="hidden" name="state" value="3">
+                              <span class="input-group-btn">
+                                <i class="btn btn-flat btn-default" onclick='jian("{$v.id}")' >-</i>
+                              </span>
+                              <input type="text" class="form-control defer{$v.id}" name="defer" value="{$v.defer}">
+                              <span class="input-group-btn">
+                                <i class="btn btn-flat btn-default" onclick='jia("{$v.id}")' >+</i>
+                              </span>
+                              <span class="input-group-btn">
+                                <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-clock-o"></i></button>
+                              </span>
+                            </div>
+                            </form>
+                          <!--</div>-->
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </td>
+                </tr>
+                <!--追加小目标-->
+                {foreach $addto as $va}
+                {if $va.item_id == $v.id}
+                <tr>
+                  <td style="display: none;">{$v.user_id}</td><td></td><td>
+                  <i class="{$v.state==1||$v.state==2? 'a-state' : ''}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$va.addto_name}</i></td><td align="right">
+                  </td><td align="center">
+                  <a href="javascript:void(0)" onclick="delat({$va.id})">
+                    <i class="fa fa-trash-o"></i>
+                  </a>
+                </td></tr>
+                {/if}
+                {/foreach}
+                {/if}
+
+                {/foreach}
+
+                </tbody>
+              </table>
+          </div>
+        </div>
+        </div>
+        <div class="col-md-3">
+          <!-- Select multiple-->
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <h4 class="box-title">附件</h4>
+              <div class="box-tools pull-right">
+                <div class=" mailbox-messages">
+                  <button type="button" class="btn bg-olive" onclick='file("{$vt.id}","{$vt.task_name}")'><i class="fa fa-cloud-upload"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="box-body pre-scrollable">
+              <!-- the events -->
+              <div class="table-responsive mailbox-messages">
+                <table class="table table-hover table-striped">
+                  <tbody>
+                  {foreach $files as $vf}
+                  {if $vf.task_id == $vt.id}
+                  <tr>
+                    <td><i class="fa fa-paperclip"></i></td>
+                    <td><a href="{$vf.file_path}" target="_blank" title="{$vf.des}">{$vf.file_name}</a></td>
+                  </tr>
+                  {/if}
+                  {/foreach}
+                  </tbody>
+                </table>
+                <!-- /.table -->
+              </div>
+
+            </div>
+            <!-- /.box-body -->
+          </div>
+
+        </div>
+      </div>
+      {/foreach}
+      <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+              <a href="{:url('admin/task/add')}" class="btn btn-block btn-primary">添加中目标</a>
+            </div>
+        </div>
       </div>
 
-      <!-- /.row (main row) -->
     </section>
-    <!-- /.content -->
   </div>
+
+  <form action="{:url('admin/files/upload')}" enctype="multipart/form-data" method="post">
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">上传</h4>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="file_task_id" name="task_id" value="">
+          <div class="form-group">
+            <label>文件描述</label>
+            <input type="text" name="des" class="form-control" placeholder="Enter ...">
+          </div>
+          <div class="form-group">
+            <label></label>
+            <input type="file" name="files" class="" id="txt_statu">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+          <button type="submit" id="btn_submit" class="btn btn-primary"><span class="fa fa-cloud-upload"></span>上传</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+
   <!-- /.content-wrapper -->
   {include file="footer" /}
 
-  <!-- Control Sidebar -->
-  <!-- /.control-sidebar -->
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
@@ -217,6 +491,11 @@
 <script>
     $.widget.bridge('uibutton', $.ui.button);
 </script>
+<!-- jQuery 3 -->
+<script src="/public/static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+<script src="/public/static/js/jquery.sweet-dropdown.min.js"></script>
+<!--<script src="/public/static/bower_components/jquery/dist/jquery.min.js"></script>-->
 <!-- Bootstrap 3.3.6 -->
 <script src="/public/static/bootstrap/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
@@ -230,7 +509,7 @@
 <!-- jQuery Knob Chart -->
 <script src="/public/static/plugins/knob/jquery.knob.js"></script>
 <!-- daterangepicker -->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>-->
+<script src="https://cdn.bootcss.com/moment.js/2.11.2/moment.min.js"></script>
 <script src="/public/static/plugins/daterangepicker/daterangepicker.js"></script>
 <!-- datepicker -->
 <script src="/public/static/plugins/datepicker/bootstrap-datepicker.js"></script>
@@ -242,6 +521,7 @@
 <script src="/public/static/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/public/static/dist/js/app.min.js"></script>
+<script src="/public/static/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/public/static/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
@@ -249,23 +529,232 @@
 <!-- DataTables -->
 <script src="/public/static/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="/public/static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<!-- iCheck -->
+<script src="/public/static/plugins/iCheck/icheck.min.js"></script>
 <script>
-    function checkid(id)
+
+    // 禁用追加小目标按钮
+    $(function(){
+
+        $('table td').click(function(){
+            if(!$(this).is('.input')){
+                $(this).addClass('input').html('<input type="text" value="'+ $(this).text() +'" />').find('input').focus().blur(function(){
+                    var thisid = $(this).parent().siblings("th:eq(1)").text();
+                    var thisvalue=$(this).val();
+                    var thisclass = $(this).parent().attr("class");
+
+//                    $.ajax({
+//                        type: 'POST',
+//                        url: 'update.php',
+//                        data: "thisid="+thisid+"&thisclass="+thisclass+"&thisvalue="+thisvalue
+//                        alert("thisid="+thisid+"&thisclass="+thisclass+"&thisvalue="+thisvalue);
+//                    });
+                    $(this).parent().removeClass('input').html($(this).val() || 0);
+                });
+            }
+        }).hover(function(){
+            $(this).addClass('hover');
+        },function(){
+            $(this).removeClass('hover');
+        });
+
+    });
+
+    // 选择默认显示登录用户目标
+    $(task).each(function(i){
+
+        var text = [];
+        $("#tables"+task[i]+" tr").each(function(j){
+            text[j] = $(this).children("td:first").text();
+            membercheck(j);
+        });
+        $.unique(text);
+        $(text).each(function(j){
+//              $("#members"+task[i]+" input").removeClass("hidden");
+//              $("#members"+task[i]+" span").removeClass("hidden");
+            $("#members"+task[i]+" .member"+text[j]).removeClass("hidden");
+        });
+    });
+
+    // 控制选中的目标成员
+    function membercheck(task_id,value)
     {
+        $("#tables"+task_id+"  tr").each(function(){
+            $(this).hide();
+        });
+//        console.log(task_id+"__"+value);
+        if(value == 0)
+        {
+            $("#members"+task_id+" input:checkbox").prop("checked",true);
+        }else{
+            $("#members"+task_id+" input:first").prop('checked',false);
+        }
+
+        var task = $("#members"+task_id+" input:checked");
+//        console.log(task);
+        $(task).each(function(){
+            var user_id = $(this).val();
+            $("#tables"+task_id+"  tr").each(function(){
+                text = $(this).children("td:first").text();
+//                console.log(text);
+                if (text == user_id)
+                {
+                    $(this).show();
+                }
+            });
+        });
+
+
+        /*$("#members"+task_id+" input:first").attr('checked',false);
+//        var text = [];
+
+        var check = $(".member"+user).is(":checked");
+        $("#tables"+task_id+"  tr").each(function(){
+            text = $(this).children("td:first").text();
+            if (text == user && check == true)
+            {
+                $(this).show();
+            }else{
+                $(this).hide();
+            }
+
+        });*/
+    }
+
+
+    function tableall(task_id,user_id)
+    {
+//        var text = [];
+        if(!$(this).prop("checked"))
+        {
+            $("#members"+task_id+" input:checkbox").each(function(){
+                $(this).attr('checked', true);
+            });
+            $("#tables"+task_id+"  tr").each(function(){
+                if (!$(this).is(":checked"))
+                {
+                    $(this).show();
+                }
+            });
+        }else{
+//            $("#members"+task_id+" input:checkbox").each(function(){
+//                $(this).attr('checked', false);
+//            });
+            /*$("#tables"+task_id+"  tr").each(function(){
+                $(".member"+user_id).attr('checked',true);
+                text = $(this).children("td:first").text();
+                if (text == user_id)
+                {
+                    $(this).show();
+                }else{
+                    $(this).hide();
+                }
+            });*/
+        }
+
+//        $.unique(text);
+
+//        console.log(text);
+    }
+  //  $.each();
+  //        $("tables").each(function(){
+  ////          $(table).each(function(){
+  //            console.log($(this).find('td').eq(0).text());
+  ////          });
+  //        });
+
+    function jia(id)
+    {
+        var t = $('.defer'+id);
+        t.val(parseInt(t.val())+1);
+    }
+    function jian(id)
+    {
+        var t = $('.defer'+id);
+        t.val(parseInt(t.val())-1);
+    }
+    function file(id,task_name)
+    {
+        $("#myModalLabel").text("上传文件到 _ "+task_name);
+        $("#file_task_id").val(id);
+        $('#myModal').modal();
+    }
+    function addrow(id)
+    {
+        $('#'+id).after("<tr><td></td><td><div class='input-group'><input type='text' class='form-control addto"+id+"' placeholder='追加'><div class='input-group-btn'><button id='add-new-event' type='button' onclick='addto("+id+")' class='btn btn-primary btn-flat'><i class='fa fa-plus'></i></button></div></div></td><td></td><td></td></tr>");
+        $('.disableCss').removeAttr('href');//去掉a标签中的href属性
+        $('.disableCss').removeAttr('onclick');//去掉a标签中的onclick事件
+        $('.disableCss').css({color:"#aaa"});
+    }
+    function addto(id)
+    {
+        at = $(".addto"+id).val();
         $.ajax({
-            url: "{:url('item/jsonalter')}",
+            url: "{:url('item/addto')}",
             type:'post',
             dataType:'json',
-            data:{ "id" : id },
+            data:{ "item_id" : id , "addto_name" : at},
             success:function(response)
             {
                 console.log(response.msg);
             }
         });
         setTimeout(function(){
-          location.reload(true);
+            location.reload(true);
         },100);
+    }
+    //添加小目标
+    function item_add(id)
+    {
+        $.ajax({
+            cache:true,
+            type:'post',
+            dataType:'json',
+            url: "{:url('admin/item/add')}",
+            data:$('#task_item_add'+id).serialize(),
+            async:false,
+            success:function()
+            {
+                setTimeout(function(){
+                    location.reload(true);
+                },100);
+            }
+        });
 
+    }
+    function delat(id)
+    {
+        if(confirm("确认要删除这条数据吗？"))
+        {
+            $.ajax({
+                url: "{:url('item/delat')}",
+                type:'post',
+                dataType:'json',
+                data:{ "id" : id},
+                success:function(response)
+                {
+                    console.log(response.msg);
+                }
+            });
+            setTimeout(function(){
+                location.reload(true);
+            },100);
+        }
+
+    }
+    function checkid(id,state)
+    {
+        $.ajax({
+            url: "{:url('item/jsonalter')}",
+            type:'post',
+            dataType:'json',
+            data:{ "id" : id , "state" : state},
+            success:function(response)
+            {
+                console.log(response.msg);
+                    location.reload(true);
+            }
+        });
     }
 
     $(function () {
@@ -278,6 +767,29 @@
             "info": true,
             "autoWidth": false,
             "order": [[ 0, "desc" ]]
+        });
+    });
+    $(function () {
+        //Enable iCheck plugin for checkboxes
+        //iCheck for checkbox and radio inputs
+        $('.mailbox-messages input[type="checkbox"]').iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
+        });
+
+        //Enable check and uncheck all functionality
+        $(".checkbox-toggle").click(function () {
+            var clicks = $(this).data('clicks');
+            if (clicks) {
+                //Uncheck all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+                $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+            } else {
+                //Check all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("check");
+                $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+            }
+            $(this).data("clicks", !clicks);
         });
     });
 </script>

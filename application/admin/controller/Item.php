@@ -103,12 +103,16 @@ class Item extends Controller
                 ->order('i.id desc')
                 ->find();
             $this->assign('value', $list);
+            $addto = Db::table('zixiao_addto')
+                ->where('item_id',$list['id'])
+                ->select();
+            $this->assign('addto',$addto);
             return $this->fetch();
         }
     }
 
     //更新小目标
-    public function update($id)
+    public function update($id,$proid='')
     {
         if(!session('username'))
         {
@@ -148,14 +152,17 @@ class Item extends Controller
         {
             //更新数据
             $data = input('post.');
-//            $data['create_time'] = strtotime($data['create_time']);
-//            $data['finish_time'] = strtotime($data['finish_time']);
+            if(!empty($data['create_time']))
+            {
+                $data['create_time'] = strtotime($data['create_time']);
+                $data['finish_time'] = strtotime($data['finish_time']);
+            }
             $result = Db::table('zixiao_item')
                 ->where('id='.$id)
                 ->update($data);
             if($result)
             {
-                $this->redirect('admin/index/index');
+                $this->redirect('admin/index/index',['proid'=>$proid]);
             }else{
                 $this->error("任务没有做任何修改！");
             }
@@ -166,28 +173,89 @@ class Item extends Controller
     {
         $data = input('post.');
         $id = $data['id'];
-
-        $r = Db::table('zixiao_item')
-            ->alias('i')
-            ->where('i.id='.$id)
-            ->field('state')
-            ->find();
-        if($r['state'] == 0)
+        if(!empty($data['state']))
         {
+            $state = $data['state'];
             Db::table('zixiao_item')
                 ->where('id='.$id)
-                ->update(['state' => 1]);
-        }else if($r['state'] == 1)
-        {
-            Db::table('zixiao_item')
-                ->where('id='.$id)
-                ->update(['state' => 0]);
+                ->update(['state' => $state]);
+            $return = array(
+                'code' => 10000,
+                'msg'  => "状态切换成功"
+            );
+            return json($return);
+        }else{
+            $r = Db::table('zixiao_item')
+                ->alias('i')
+                ->where('i.id='.$id)
+                ->field('state')
+                ->find();
+            if($r['state'] == 1)
+            {
+                Db::table('zixiao_item')
+                    ->where('id='.$id)
+                    ->update(['state' => 0]);
+            }else
+            {
+                Db::table('zixiao_item')
+                    ->where('id='.$id)
+                    ->update(['state' => 1]);
+            }
+            $return = array(
+                'code' => 10000,
+                'msg'  => "状态切换成功"
+            );
+            return json($return);
         }
-        $return = array(
-            'code' => 10000,
-            'msg'  => "状态切换成功"
-        );
-        return $return;
 
+
+
+
+
+    }
+
+    //追加小目标
+    public function addto()
+    {
+        $data = input('post.');
+        $result = Db::name('Addto')->insert($data);
+        if($result)
+        {
+            $return = array(
+                'code' => 10000,
+                'msg'  => "添加成功"
+            );
+            return json($return);
+        }else{
+            $return = array(
+                'code' => 20000,
+                'msg'  => "添加失败"
+            );
+            return json($return);
+        }
+    }
+
+    //删除追加的小目标
+    public function delat()
+    {
+        $data = input('post.');
+        /*$return = array(
+            'code' => 10000,
+            'msg'  => $data['id']
+        );
+        echo json($return);*/
+
+        if(!empty($data['id']))
+        {
+            $result = Db::name('Addto')->where('id',$data['id'])->delete();
+            if($result)
+            {
+                $return = array(
+                    'code' => 10000,
+                    'msg'  => "删除成功"
+                );
+                return json($return);
+            }
+        }
     }
 }
